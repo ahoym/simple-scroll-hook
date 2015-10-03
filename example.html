@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset='utf-8'>
+  </head>
+  <body>
+    <!-- Ideally, use a separate file for styles. -->
+    <style>
+      section {
+        font-size: 48px;
+        font-family: sans-serif;
+        width: 100vw;
+        height: 100vh;
+        line-height: 100vh;
+        text-align: center;
+      }
+
+      /*Example initialState*/
+      .hidden {
+        visibility: hidden;
+      }
+      .not-sticky {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        height: 20vh;
+        line-height: 20vh;
+        font-size: 16px;
+      }
+
+
+      @keyframes fade-in-slide-left {
+        0% {
+          opacity: 0.5;
+          transform: translateX(20%);
+        }
+        100% {
+          opacity: 1;
+          transform: translateX(0%);
+        }
+      }
+
+      /*Example finalStates*/
+      .fade-in-slide-left {
+        animation: fade-in-slide-left 3s;
+      }
+      .stick {
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 20vh;
+        line-height: 20vh;
+        font-size: 16px;
+      }
+    </style>
+
+    <section>
+      <p>Scroll down!</p>
+      <div class='not-sticky'>
+        <p>Example Sticky</p>
+      </div>
+    </section>
+    <section>
+      <div class='placeholder'></div>
+      <div class='one hidden'>
+        <p>Hello first section!</p>
+      </div>
+    </section>
+    <section>
+      <div class='placeholder'></div>
+      <div class='two hidden'>
+        <p>Hello second section!</p>
+      </div>
+    </section>
+    <section>
+      <div class='placeholder'></div>
+      <div class='three hidden'>
+        <p>Hello third section!</p>
+      </div>
+    </section>
+
+
+    <script src='./simple-scroll-hook.js' type='text/javascript'></script>
+    <script>
+      var scrollHook = window.scrollHook;
+
+
+      // Example with sticky element and animation
+      var sticky = document.querySelector('.not-sticky');
+      var stickyExample = {
+        initialStates: 'not-sticky',
+        finalStates: ['stick'],
+        position: sticky.getBoundingClientRect().top + window.innerHeight
+      };
+
+      scrollHook.register(sticky, stickyExample);
+
+
+      // Example with animation classes
+      var one = document.querySelector('.one');
+      var two = document.querySelector('.two');
+      var three = document.querySelector('.three');
+
+      var animationExample = {
+        initialStates: 'hidden',
+        finalStates: 'fade-in-slide-left'
+      };
+
+      // Chain event registration if you wan't
+      scrollHook.register(one, animationExample)
+        .register(two, animationExample)
+        .register(three, animationExample);
+
+
+      // Don't forget to call this!
+      scrollHook.start();
+
+      /* getEventListeners is a functoin defined in Chrome dev tools, Firebug,
+       * and Safari Inspector. Shows the eventListeners of a DOM element.
+       *
+       * getEventListeners(document);
+       * getEventListeners(window);
+       *
+       * Should both be empty objects because ScrollHook cleans up after itself
+       */
+
+    </script>
+  </body>
+</html>
