@@ -4,7 +4,7 @@ module.exports = function(config) {
 
     browsers: ['Chrome', 'Firefox'],
 
-    frameworks: ['mocha', 'chai'],
+    frameworks: ['mocha', 'chai', 'sinon-chai'],
 
     files: [
       './simple-scroll-hook.js',

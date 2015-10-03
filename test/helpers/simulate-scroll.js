@@ -19,16 +19,10 @@ function scrollViewBottomTo(position) {
   'use strict';
 
   var viewBottomPosition = position - window.innerHeight;
-  var wheelConfig = {
-    deltaX: 0,
-    deltaY: viewBottomPosition
-  };
-  var event = new WheelEvent('mousewheel', wheelConfig);
-  var firefoxEvent = new WheelEvent('DOMMouseScroll', wheelConfig);
+  var event = new CustomEvent('optimizedScroll');
 
   // WheelEvent only fires the event, but doesn't change the window at all.
   window.pageYOffset = viewBottomPosition;
 
   window.dispatchEvent(event);
-  window.dispatchEvent(firefoxEvent);
 }

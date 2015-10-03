@@ -26,6 +26,19 @@
   function ScrollHook() {
     this.events = {};
     this.positions = [];
+    this._throttleTime = 50; // Only perform scroll event cb every 50 ms
+  }
+
+
+  /**
+   * Set interval for when to fire mousewheel/DOMMouseScroll event callback
+   * @param {int} milliseconds between callbacks (default = 50ms)
+   * @return {ScrollHook singleton} Allows for chaining off this function.
+   */
+  ScrollHook.prototype.setThrottleTime = function (ms) {
+    this._throttleTime = ms;
+
+    return this;
   }
 
 
@@ -132,6 +145,33 @@
 
 
   /**
+   * Create throttling function that will dispatch a CustomEvent. The wheel
+   * events can then hook into this function, which will only fire after
+   * this._throttleTime milliseconds.
+   * @param {string} Custom name for the CustomEvent to be created.
+   * @return {function} Throttling function for wheel events to call.
+   */
+  ScrollHook.prototype.createThrottle = function (name) {
+    var ms = this._throttleTime || 50;
+    var running = false;
+    var timeoutId;
+
+    return function() {
+      if (running) {
+        return;
+      }
+
+      running = true;
+      timeoutId = setTimeout(function() {
+        window.dispatchEvent(new CustomEvent(name));
+        running = false;
+        clearTimeout(timeoutId);
+      }, ms);
+    };
+  };
+
+
+  /**
    * Add scroll listeners to window, and document load. For example if a
    * user refreshed the page (and preserved scroll position), the element
    * in view will still transition states. Listeners are automatically removed
@@ -141,21 +181,17 @@
     this.determineMin();
 
     var _this = this;
-
-    document.addEventListener('DOMContentLoaded', function fireHooksInView() {
-      _this.transitionElements();
-      /* Since this callback should be a one time call, remove event listener
-       * immediately after to prevent memory leaks.
-       */
-      document.removeEventListener('DOMContentLoaded', fireHooksInView);
-    });
+    var throttledCb = this.createThrottle('optimizedScroll');
+    window.addEventListener('DOMMouseScroll', throttledCb);
+    window.addEventListener('mousewheel', throttledCb);
 
     // locally scoped function so we can properly remove eventListener
     function fireHooks() {
-      // Hooked events for all positions have been fired, remove handler
+      // Hooked events for all positions have been fired, remove handlers
       if (!_this.min) {
-        window.removeEventListener('DOMMouseScroll', fireHooks);
-        window.removeEventListener('mousewheel', fireHooks);
+        window.removeEventListener('optimizedScroll', fireHooks);
+        window.removeEventListener('DOMMouseScroll', throttledCb);
+        window.removeEventListener('mousewheel', throttledCb);
         return;
       }
 
@@ -165,10 +201,18 @@
       }
 
       _this.transitionElements();
-    }
+    };
 
-    window.addEventListener('DOMMouseScroll', fireHooks); // Firefox
-    window.addEventListener('mousewheel', fireHooks);     // Everything else
+    // Perform transitions that are already past their positions
+    document.addEventListener('DOMContentLoaded', function fireHooksInView() {
+      _this.transitionElements();
+      /* Since this callback should be a one time call, remove event listener
+       * immediately after to prevent memory leaks.
+       */
+      document.removeEventListener('DOMContentLoaded', fireHooksInView);
+    });
+
+    window.addEventListener('optimizedScroll', fireHooks);
   };
 
 
