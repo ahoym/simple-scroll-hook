@@ -113,7 +113,9 @@
 
 
       // Don't forget to call this!
-      scrollHook.start();
+      scrollHook
+        .setThrottleTime(1)
+        .start();
 
       /* getEventListeners is a functoin defined in Chrome dev tools, Firebug,
        * and Safari Inspector. Shows the eventListeners of a DOM element.

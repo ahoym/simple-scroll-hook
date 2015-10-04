@@ -58,11 +58,57 @@ scrollHook.register(sticky, {
 
 // Register more transitions if desired
 
-// This will set up the scroll listener
+// Only call check for transitions every 250ms (Default 50ms).
+scrollHook.setThrottleTime(250);
+
+// This specific call will add the window listener
 scrollHook.start();
 ```
 
 That's it! Transitions should work as a user scrolls down, and `simple-scroll-hook` will automatically clean up after itself after all transitions are completed. This will also work if you have CSS3 animations in your classes.
+
+Many of the functions are also chainable, so the above code could also be written as:
+
+```javascript
+var scrollHook = require('simple-scroll-hook');
+
+
+var sticky = document.querySelector('.not-sticky');
+var transitionPos = sticky.getBoundingClientRect().top + window.innerHeight;
+
+var exampleConfig = {
+  initialStates: 'not-sticky',
+  finalStates: 'sticky',
+  position: transitionPos
+};
+
+scrollHook.register(sticky, exampleConfig)
+          .register(anotherEl, anotherConfig);
+          .register(yetAnotherEl, yetAnotherConfig)
+          .setThrottleTime(250)
+          .start();
+```
+
+## API
+### scrollHook.register(element, config)
+Register an element, and its configuration.
+```
+// Example configuration:
+{
+  initialStates: {string | array},  CSS class(es) of the element when out of view.
+  finalStates: {string | array},    CSS class(es) of the element when scrolled into view.
+  position: {int}                   (optional) Where to transition classes.
+}
+```
+Note,
+`simple-scroll-hook` can act to just remove `initialStates`, making `finalStates` optional.
+It can also be done vice-versa.
+
+`position`, if not specified, will default to the `element.offsetTop`.
+
+### scrollHook.start()
+ Add the wheel event listener, and fire registered events.
+
 
 ## Contributing
 Issues and Pull requests are always welcome. Relevant test coverage is required, please.
