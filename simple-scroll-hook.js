@@ -31,7 +31,7 @@
 
 
   /**
-   * Set interval for when to fire mousewheel/DOMMouseScroll event callback
+   * Set interval for when to fire optimizedScroll event callback
    * @param {int} milliseconds between callbacks (default = 50ms)
    * @return {ScrollHook singleton} Allows for chaining off this function.
    */
@@ -181,16 +181,14 @@
 
     var _this = this;
     var throttledCb = this.createThrottle('optimizedScroll');
-    window.addEventListener('DOMMouseScroll', throttledCb);
-    window.addEventListener('mousewheel', throttledCb);
+    window.addEventListener('scroll', throttledCb);
 
     // locally scoped function so we can properly remove eventListener
     function fireHooks() {
       // Hooked events for all positions have been fired, remove handlers
       if (!_this.min) {
         window.removeEventListener('optimizedScroll', fireHooks);
-        window.removeEventListener('DOMMouseScroll', throttledCb);
-        window.removeEventListener('mousewheel', throttledCb);
+        window.removeEventListener('scroll', throttledCb);
         return;
       }
 

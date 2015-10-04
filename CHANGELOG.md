@@ -1,3 +1,6 @@
+# 0.2.0
++ Add `scroll` listener only now, not `mousewheel` or `DOMMouseScroll`. The latter two did not capture events from pressing the down arrow on the keyboard or when scroll was not triggered by the mouse.
+
 # 0.1.2
 + Syntax changes for internal variables not meant to be used publicly.
   + `ScrollHook.positions` --> `ScrollHook._positions`
