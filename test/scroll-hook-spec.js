@@ -160,12 +160,12 @@ describe('ScrollHook', function () {
     scrollHook.start();
 
 
-    expect(scrollHook.positions).to.contain(expectedPosition);
-    expect(scrollHook.events).to.include.keys(String(expectedPosition));
+    expect(scrollHook._positions).to.contain(expectedPosition);
+    expect(scrollHook._events).to.include.keys(String(expectedPosition));
 
     scrollViewBottomTo(1100);
     expect(testEl.className).to.equal('three four');
-    expect(scrollHook.positions).to.not.contain(expectedPosition);
-    expect(scrollHook.events).to.not.include.keys(String(expectedPosition));
+    expect(scrollHook._positions).to.not.contain(expectedPosition);
+    expect(scrollHook._events).to.not.include.keys(String(expectedPosition));
   });
 });

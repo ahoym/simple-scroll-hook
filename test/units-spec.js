@@ -3,7 +3,8 @@ describe('ScroolHook functions', function () {
 
   var createBuffer = window.createBuffer;
   var scrollHook = window.scrollHook;
-  var positions = scrollHook.positions;
+  var positions = scrollHook._positions;
+  var events = scrollHook._events
   var sandbox;
   var bufferSection;
   var oneEl;
@@ -51,7 +52,7 @@ describe('ScroolHook functions', function () {
 
       expect(positions).to.not.be.empty;
 
-      elementRepresentation = scrollHook.events[positions[0]];
+      elementRepresentation = events[positions[0]];
       expect(elementRepresentation).to.exist;
       expect(elementRepresentation).to
         .contain.all.keys('HTMLel', 'initialStates', 'finalStates');
@@ -78,7 +79,7 @@ describe('ScroolHook functions', function () {
       scrollHook.register(twoEl, commonConfig)
                 .register(threeEl, commonConfig);
 
-      expect(scrollHook.events[positions[1]]);
+      expect(events[positions[1]]);
     });
   });
 
@@ -94,7 +95,7 @@ describe('ScroolHook functions', function () {
 
   describe('.transitionStates()', function () {
     it('removes the initialStates and adds the finalStates', function () {
-      var oneElRepresentation = scrollHook.events[positions[0]];
+      var oneElRepresentation = events[positions[0]];
 
       expect(oneEl.className).to.equal('one');
 

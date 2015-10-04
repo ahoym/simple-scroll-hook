@@ -24,8 +24,8 @@
 
 
   function ScrollHook() {
-    this.events = {};
-    this.positions = [];
+    this._events = {};
+    this._positions = [];
     this._throttleTime = 50; // Only perform scroll event cb every 50 ms
   }
 
@@ -46,6 +46,7 @@
    * Register DOM element to transition to its finalState
    * @param {HTML Element} The element to act on when it is scrolled into view
    * @param {object} Information of the element's initial and final states.
+   * @return {ScrollHook singleton} Allows for chaining off this function.
    *  eg,
    *    {
    *      finalStates: 'slide-up',  // Example CSS class for slide-up animation
@@ -67,8 +68,8 @@
       finalStates = [ options.finalStates ];
     }
 
-    this.positions.push(position);
-    this.events[position] = {
+    this._positions.push(position);
+    this._events[position] = {
       HTMLel: element,
       initialStates: initialStates,
       finalStates: finalStates
@@ -84,12 +85,10 @@
    * events when the user's view is near the min.
    */
   ScrollHook.prototype.determineMin = function () {
-    var positions = this.positions;
+    var positions = this._positions;
 
     // If there are no positions, all events have been fired.
     this.min = positions.length === 0 ? null : Math.min.apply(null, positions);
-
-    return this;
   };
 
 
@@ -117,22 +116,22 @@
    */
   ScrollHook.prototype.transitionElements = function () {
     var viewWindowBottom = window.pageYOffset + window.innerHeight;
-    var positions = this.positions.length;
+    var positions = this._positions.length;
     var position;
     var elementRepresentation;
 
     // native for loop has better performance than forEach. (jsperf)
     for (var i = 0; i < positions; i++) {
-      position = this.positions[i];
+      position = this._positions[i];
 
       if (viewWindowBottom >= position) {
-        elementRepresentation = this.events[position];
+        elementRepresentation = this._events[position];
 
         this.transitionStates(elementRepresentation);
 
         // scrollUp event fired for position. It's done, so remove it.
-        delete this.events[position];
-        this.positions.splice(i, 1);
+        delete this._events[position];
+        this._positions.splice(i, 1);
 
         // Since current position was spliced out, set i back by 1.
         i -= 1;
