@@ -106,6 +106,10 @@ It can also be done vice-versa.
 
 `position`, if not specified, will default to the `element.offsetTop`.
 
+### scrollHook.setThrottleTime(ms)
+Default 50ms. Set the interval between firing wheel event callbacks.
+
+
 ### scrollHook.start()
  Add the wheel event listener, and fire registered events.
 

@@ -1,6 +1,6 @@
 {
   "name": "simple-scroll-hook",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A jQuery-less, simple library for hooking CSS class changes to HTML elements as they scroll into view.",
   "main": "simple-scroll-hook.js",
   "scripts": {

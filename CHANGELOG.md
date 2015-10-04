@@ -1,3 +1,9 @@
+# 0.1.2
++ Syntax changes for internal variables not meant to be used publicly.
+  + `ScrollHook.positions` --> `ScrollHook._positions`
+  + `ScrollHook.events` --> `ScrollHook._events`
++ Update docstrings of some functions.
+
 # 0.1.1
 + Add throttling functionality for performance.
   + **scrollHook.setThrottleTime(ms)**: Set the interval between firing wheel event callbacks.
