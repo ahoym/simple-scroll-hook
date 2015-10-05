@@ -59,6 +59,7 @@
     var position = options.position || element.offsetTop;
     var initialStates = options.initialStates || [];
     var finalStates = options.finalStates || [];
+    this._events[position] = this._events[position] || [];
 
     if (typeof initialStates === 'string') {
       initialStates = [ options.initialStates ];
@@ -68,12 +69,17 @@
       finalStates = [ options.finalStates ];
     }
 
-    this._positions.push(position);
-    this._events[position] = {
+    var elementRepresentation = {
       HTMLel: element,
       initialStates: initialStates,
       finalStates: finalStates
     };
+
+    if (this._positions.indexOf(position) === -1) {
+      this._positions.push(position);
+    }
+
+    this._events[position].push(elementRepresentation);
 
     return this;
   };
@@ -94,17 +100,20 @@
 
   /**
    * Remove initialStates and apply finalStates to HTML element
-   * @param {object} Representation of element and its states
+   * @param {array} Element representations and their states
    */
-  ScrollHook.prototype.transitionStates = function(element) {
-    var elementClasses = element.HTMLel.classList;
+  ScrollHook.prototype.transitionStates = function(elements) {
+    for (var i = 0; i < elements.length; i++) {
+      var element = elements[i];
+      var elementClasses = element.HTMLel.classList;
 
-    for (var i = 0; i < element.initialStates.length; i++) {
-      elementClasses.remove(element.initialStates[i]);
-    }
+      for (var j = 0; j < element.initialStates.length; j++) {
+        elementClasses.remove(element.initialStates[j]);
+      }
 
-    for (var j = 0; j < element.finalStates.length; j++) {
-      elementClasses.add(element.finalStates[j]);
+      for (var k = 0; k < element.finalStates.length; k++) {
+        elementClasses.add(element.finalStates[k]);
+      }
     }
   };
 
@@ -118,16 +127,16 @@
     var viewWindowBottom = window.pageYOffset + window.innerHeight;
     var positions = this._positions.length;
     var position;
-    var elementRepresentation;
+    var elementRepresentations;
 
     // native for loop has better performance than forEach. (jsperf)
     for (var i = 0; i < positions; i++) {
       position = this._positions[i];
 
       if (viewWindowBottom >= position) {
-        elementRepresentation = this._events[position];
-
-        this.transitionStates(elementRepresentation);
+        elementRepresentations = this._events[position];
+        
+        this.transitionStates(elementRepresentations);
 
         // scrollUp event fired for position. It's done, so remove it.
         delete this._events[position];

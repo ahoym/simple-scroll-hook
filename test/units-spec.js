@@ -36,6 +36,7 @@ describe('ScroolHook functions', function () {
     it('creates a scroll hook for an element and its states', function () {
       var expectedInitial = [ 'one' ];
       var expectedFinal = [ 'and-done' ];
+      var elementRepresentations;
       var elementRepresentation;
 
       oneEl = document.createElement('div');
@@ -52,8 +53,11 @@ describe('ScroolHook functions', function () {
 
       expect(positions).to.not.be.empty;
 
-      elementRepresentation = events[positions[0]];
-      expect(elementRepresentation).to.exist;
+      elementRepresentations = events[positions[0]];
+      expect(elementRepresentations).to.exist;
+      expect(elementRepresentations).to.be.an('array');
+
+      elementRepresentation = elementRepresentations[0];
       expect(elementRepresentation).to
         .contain.all.keys('HTMLel', 'initialStates', 'finalStates');
       expect(elementRepresentation.initialStates).to.equal(expectedInitial);
@@ -69,9 +73,6 @@ describe('ScroolHook functions', function () {
       threeEl.style.height = '500px';
       document.body.appendChild(threeEl);
 
-      document.body.appendChild(twoEl);
-      document.body.appendChild(threeEl);
-
       var commonConfig = {
         finalStates: [ 'super-done', 'super-duper-done' ]
       };
@@ -80,6 +81,39 @@ describe('ScroolHook functions', function () {
                 .register(threeEl, commonConfig);
 
       expect(events[positions[1]]);
+    });
+
+    it('can bind multiple elements to the same position', function () {
+      var leftEl = document.createElement('div');
+      leftEl.className = 'left';
+      document.body.appendChild(leftEl);
+
+      var rightEl = document.createElement('div');
+      rightEl.className = 'right';
+      document.body.appendChild(rightEl);
+
+      var commonConfig = {
+        finalStates: 'donezo',
+        position: 2000
+      };
+
+      scrollHook.register(leftEl, commonConfig)
+                .register(rightEl, commonConfig);
+
+      var testEvents = scrollHook._events[2000];
+
+      expect(testEvents).to.be.an('array');
+      expect(testEvents.length).to.equal(2);
+      expect(testEvents[0].HTMLel.className).to.equal('left');
+      expect(testEvents[1].HTMLel.className).to.equal('right');
+    });
+
+    it('should not track duplicate positions', function () {
+      var positions = scrollHook._positions.filter(function(num) {
+        return num === 2000; // The double event we bound in previous test.
+      });
+
+      expect(positions.length).to.equal(1);
     });
   });
 
