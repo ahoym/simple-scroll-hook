@@ -1,3 +1,6 @@
+# 0.2.1
++ Allow multiple events to be bound to one position. Previously there was a bug where if two elements shared the same position, the element registered later would overwrite the former.
+
 # 0.2.0
 + Add `scroll` listener only now, not `mousewheel` or `DOMMouseScroll`. The latter two did not capture events from pressing the down arrow on the keyboard or when scroll was not triggered by the mouse.
 
