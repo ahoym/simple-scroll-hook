@@ -6,11 +6,7 @@ As of now, `simple-scroll-hook` works ideally as the user scrolls down a site.
 
 Example use cases include fading in/sliding up text as the user scrolls into a new section, or making elements sticky as they scroll down.
 
-Both can be seen in the `example.html` in this repo. To view, you can simply run the following in the command line:
-
-```
-open example.html
-```
+Both can be seen on an example project page: http://ahoym.github.io/simple-scroll-hook/
 
 ## Installation
 `simple-scroll-hook` can be used as:
