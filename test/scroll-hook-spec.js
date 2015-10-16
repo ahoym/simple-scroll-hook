@@ -27,6 +27,7 @@ describe('ScrollHook', function () {
     console.log(scrollViewBottomTo)
     console.log(createBuffer)
     console.log(scrollHook)
+    console.log(document.body);
     console.log('------')
 
     testEl = document.createElement('div');
