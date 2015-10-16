@@ -1,6 +1,7 @@
 describe('ScroolHook functions', function () {
   'use strict';
 
+  var scrollToPosition = window.scrollToPosition;
   var createBuffer = window.createBuffer;
   var scrollHook = window.scrollHook;
   var positions = scrollHook._positions;
@@ -18,7 +19,7 @@ describe('ScroolHook functions', function () {
   });
 
   afterEach(function() {
-    window.scrollTo(0, 0);
+    scrollToPosition(0);
     document.body.removeChild(bufferSection);
     sandbox.restore();
   });
@@ -148,7 +149,7 @@ describe('ScroolHook functions', function () {
       /* Do not call the scroll simulation helper here because that will
        * automatically call this function through the listener.
        */
-      window.scrollTo(0, 3000);
+      scrollToPosition(3000);
       scrollHook.transitionElements();
 
       expect(twoEl.className).to.equal('super-done super-duper-done');

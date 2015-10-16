@@ -1,6 +1,7 @@
 describe('ScrollHook', function () {
   'use strict';
 
+  var scrollToPosition = window.scrollToPosition;
   var scrollViewBottomTo = window.scrollViewBottomTo;
   var createBuffer = window.createBuffer;
   var scrollHook = window.scrollHook;
@@ -13,7 +14,7 @@ describe('ScrollHook', function () {
   })
 
   afterEach(function() {
-    window.scrollTo(0, 0);
+    scrollToPosition(0);
     document.body.removeChild(testEl);
     document.body.removeChild(bufferSection);
   });
