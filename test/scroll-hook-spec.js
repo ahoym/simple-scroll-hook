@@ -23,6 +23,12 @@ describe('ScrollHook', function () {
     var initialState = 'foo';
     var expectedFinalState = 'bar';
 
+    console.log('------')
+    console.log(scrollViewBottomTo)
+    console.log(createBuffer)
+    console.log(scrollHook)
+    console.log('------')
+
     testEl = document.createElement('div');
     testEl.className = initialState;
     testEl.style.height = '400px';
