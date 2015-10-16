@@ -1,6 +1,7 @@
 # simple-scroll-hook
 A simple, jQuery-less library for hooking HTML elements' CSS class changes to the window scroll. Multiple events can be bound to the `scrollHook` object, which creates only one scroll listener for everything hooked in. Additionally, after all its hooked events are fired, it cleans up after itself and removes its listeners to prevent memory leaks.
 
+
 ## What are some use cases?
 As of now, `simple-scroll-hook` works ideally as the user scrolls down a site.
 
@@ -8,12 +9,14 @@ Example use cases include fading in/sliding up text as the user scrolls into a n
 
 Both can be seen on an example project page: http://ahoym.github.io/simple-scroll-hook/
 
+
 ## Installation
 `simple-scroll-hook` can be used as:
 
 1. A `<script>` tag, creating a `window.scrollHook` singleton object.
 2. A Node.js / CommonJS module
 3. An AMD module
+
 
 ## Usage
 Say we have these CSS classes:
@@ -84,6 +87,7 @@ scrollHook.register(sticky, exampleConfig)
           .setThrottleTime(250)
           .start();
 ```
+
 
 ## API
 ### scrollHook.register(element, config)
