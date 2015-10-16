@@ -22,7 +22,7 @@ function scrollViewBottomTo(position) {
   var event = new CustomEvent('optimizedScroll');
 
   // WheelEvent only fires the event, but doesn't change the window at all.
-  window.pageYOffset = viewBottomPosition;
+  window.scrollTo(0, viewBottomPosition);
 
   window.dispatchEvent(event);
 }

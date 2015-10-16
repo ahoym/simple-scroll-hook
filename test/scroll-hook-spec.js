@@ -13,7 +13,7 @@ describe('ScrollHook', function () {
   })
 
   afterEach(function() {
-    window.pageYOffset = 0;
+    window.scrollTo(0, 0);
     document.body.removeChild(testEl);
     document.body.removeChild(bufferSection);
   });

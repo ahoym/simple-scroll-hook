@@ -18,7 +18,7 @@ describe('ScroolHook functions', function () {
   });
 
   afterEach(function() {
-    window.pageYOffset = 0;
+    window.scrollTo(0, 0);
     document.body.removeChild(bufferSection);
     sandbox.restore();
   });
@@ -148,7 +148,7 @@ describe('ScroolHook functions', function () {
       /* Do not call the scroll simulation helper here because that will
        * automatically call this function through the listener.
        */
-      window.pageYOffset = 3000;
+      window.scrollTo(0, 3000);
       scrollHook.transitionElements();
 
       expect(twoEl.className).to.equal('super-done super-duper-done');
