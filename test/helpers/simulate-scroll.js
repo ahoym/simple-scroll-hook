@@ -9,7 +9,7 @@ function scrollToPosition(yPosition) {
   window.pageYOffset = yPosition;
 
   // This works in travis-CI
-  window.scrollTo(0, yPosition);
+  // window.scrollTo(0, yPosition);
 }
 
 /**
