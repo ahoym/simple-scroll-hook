@@ -1,4 +1,4 @@
-# simple-scroll-hook [![Build Status](https://travis-ci.org/ahoym/simple-scroll-hook.svg)](https://travis-ci.org/ahoym/simple-scroll-hook)
+# simple-scroll-hook [![Build Status](https://travis-ci.org/ahoym/simple-scroll-hook.svg?branch=master)](https://travis-ci.org/ahoym/simple-scroll-hook)
 A simple, jQuery-less library for hooking HTML elements' CSS class changes to the window scroll. Multiple events can be bound to the `scrollHook` object, which creates only one scroll listener for everything hooked in. Additionally, after all its hooked events are fired, it cleans up after itself and removes its listeners to prevent memory leaks.
 
 
