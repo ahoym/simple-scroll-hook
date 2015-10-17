@@ -27,6 +27,7 @@ describe('ScroolHook functions', function () {
   describe('.setThrottleTime()', function () {
     it('sets the interval between scroll event callbacks', function () {
       var expectedTime = 2000;
+      console.log(document.body);
 
       scrollHook.setThrottleTime(expectedTime)
       expect(scrollHook._throttleTime).to.equal(expectedTime);
